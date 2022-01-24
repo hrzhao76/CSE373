@@ -43,13 +43,13 @@ public class BinarySearchAutocomplete implements Autocomplete {
         }
 
         int i = Collections.binarySearch(this.terms, prefix, CharSequence::compare);
-        if (i >= 0) {
-            for (int j=i; j< this.terms.size(); j++) {
-                if (Autocomplete.isPrefixOf(prefix, this.terms.get(j))) {
-                    result.add(this.terms.get(j));
-                }else {
-                    return result;
-                }
+        i = i>=0 ? i: -(i + 1) ;
+
+        for (int j=i; j< this.terms.size(); j++) {
+            if (Autocomplete.isPrefixOf(prefix, this.terms.get(j))) {
+                result.add(this.terms.get(j));
+            }else {
+                return result;
             }
         }
         return result;
