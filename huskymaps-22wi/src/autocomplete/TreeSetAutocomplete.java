@@ -23,6 +23,14 @@ public class TreeSetAutocomplete implements Autocomplete {
     @Override
     public void addAll(Collection<? extends CharSequence> terms) {
         this.terms.addAll(terms);
+        /* note: this.terms is a NavigableSet
+
+        The java.util.NavigableSet.addAll(Collection C) method is used to append
+        all of the elements from the mentioned collection to the existing NavigableSet.
+        The elements are added randomly without following any specific order.
+
+        i.e. the orders of terms are random.
+         */
     }
 
     @Override
@@ -31,7 +39,7 @@ public class TreeSetAutocomplete implements Autocomplete {
         if (prefix == null || prefix.length() == 0) {
             return result;
         }
-        CharSequence start = terms.ceiling(prefix);
+        CharSequence start = terms.ceiling(prefix); // What is the purpose of this line and L46 using tailSet?
         if (start == null) {
             return result;
         }
