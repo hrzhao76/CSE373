@@ -30,7 +30,7 @@ public class HeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
         // TODO: Replace with your code
         //throw new UnsupportedOperationException("Not implemented yet");
-        this.pq.add(new PriorityNode<>(item, priority));
+        this.pq.add(new PriorityNode<>(item, priority)); // log N
     }
 
     @Override
@@ -38,9 +38,10 @@ public class HeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         // TODO: Replace with your code
         //throw new UnsupportedOperationException("Not implemented yet");
         // A little tricky here; need to construct a new PriorityNode to comapre
-        if(this.pq.contains(new PriorityNode<>(item, 0.0)))
-            return true;
-        return false;
+//        if(this.pq.contains(new PriorityNode<>(item, 0.0)))
+//            return true;
+//        return false;
+        return this.pq.contains(new PriorityNode<>(item, 0.0)); // linear time
     }
 
     @Override
@@ -50,7 +51,7 @@ public class HeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
         // TODO: Replace with your code
         //throw new UnsupportedOperationException("Not implemented yet");
-        return this.pq.peek().item();
+        return this.pq.peek().item(); // log N
     }
 
     @Override
@@ -60,7 +61,7 @@ public class HeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
         // TODO: Replace with your code
         //throw new UnsupportedOperationException("Not implemented yet");
-        return this.pq.poll().item();
+        return this.pq.poll().item(); // log N
     }
 
     @Override
@@ -76,8 +77,8 @@ public class HeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         //        this.pq.remove(stored_item);
         //        break;
         //}
-        this.pq.remove(new PriorityNode<>(item, 0.0));
-        this.pq.add(new PriorityNode<>(item, priority));
+        this.pq.remove(new PriorityNode<>(item, 0.0)); //linear time
+        this.pq.add(new PriorityNode<>(item, priority)); // log N
     }
 
     @Override

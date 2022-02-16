@@ -44,6 +44,7 @@ public class OptimizedHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         int parent = parent(index);
         while (accessible(parent) && (items.get(index).priority() < items.get(parent).priority())) {
             this.itemToIndex.replace(items.get(parent).item(), index);
+            this.itemToIndex.replace(items.get(index).item(), parent);
             swap(index, parent);
             index = parent;
             parent = parent(index); // needed to start next iteration
@@ -88,7 +89,7 @@ public class OptimizedHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             throw new NoSuchElementException("PQ is empty");
         }
         // TODO: Replace with your code
-        return this.items.get(1).item();
+        return this.items.get(1).item(); // constant
     }
 
 
@@ -100,20 +101,20 @@ public class OptimizedHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         // TODO: Replace with your code
         //throw new UnsupportedOperationException("Not implemented yet");
         // 1st: swap the root and the last
-        T min = peekMin();
-        swap(1, size());
+        T min = peekMin(); // constant
+        swap(1, size()); // constant
 
         // 2nd: remove the last
-        this.items.remove(size());
-        this.itemToIndex.remove(min);
+        this.items.remove(size()); // constant
+        this.itemToIndex.remove(min); // constant
 
         // 3rd: sink the root to its proper position
-        sink(1);
+        GetSinkPos(1); // log N
 
         return min;
 
     }
-    private void sink(int index) {
+    private int GetSinkPos(int index) {
         int child = min(left(index), right(index));
         while (accessible(child) && (items.get(index).priority() > items.get(child).priority())) {
             this.itemToIndex.replace(items.get(child).item(), index);
@@ -122,6 +123,7 @@ public class OptimizedHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             index = child;
             child = min(left(index), right(index));
         }
+        return index;
     }
     private int min(int index1, int index2) {
         if (!accessible(index1) && !accessible(index2)) {
@@ -141,17 +143,27 @@ public class OptimizedHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
         // TODO: Replace with your code
         //throw new UnsupportedOperationException("Not implemented yet");
-        int item_Index = itemToIndex.get(item);
-        swap(item_Index, size());
+//        int item_Index = itemToIndex.get(item);
+//        swap(item_Index, size());
+//
+//        // 2nd: remove the last
+//        this.items.remove(size());
+//        this.itemToIndex.remove(item);
+//
+//        // 3rd: sink the root to its proper position
+//        GetSinkPos(item_Index);
+//
+//        add(item, priority);
 
-        // 2nd: remove the last
-        this.items.remove(size());
-        this.itemToIndex.remove(item);
+        int item_Index = itemToIndex.get(item); // constant
+        this.items.get(item_Index).setPriority(priority); // constant
+        int new_index = GetSinkPos(item_Index); // log N
+        if (new_index == item_Index){
+            new_index = GetSwimPos(item_Index);
+        }
+        this.itemToIndex.replace(this.items.get(new_index).item(),new_index); // constant
 
-        // 3rd: sink the root to its proper position
-        sink(item_Index);
-
-        add(item, priority);
+//        add(item, priority);
     }
 
     @Override
