@@ -59,7 +59,6 @@ public class UnsortedArrayMinPQ<T> implements ExtrinsicMinPQ<T> {
             if (priority_min > this.items.get(i).priority()){
                 priority_min = this.items.get(i).priority();
                 index_min = i;
-                break;
             }
         }
 
@@ -80,7 +79,6 @@ public class UnsortedArrayMinPQ<T> implements ExtrinsicMinPQ<T> {
             if (priority_min > this.items.get(i).priority()){
                 priority_min = this.items.get(i).priority();
                 index_min = i;
-                break;
             }
         }
         T item_min = this.items.get(index_min).item();
