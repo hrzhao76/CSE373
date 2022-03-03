@@ -1,0 +1,34 @@
+dijkstra(Graph graph, Vertex start) {
+    // Maps each vertex to the weight of the best-known shortest path.
+    Map<Vertex, Edge> edgeTo = new HashMap<>();
+    // The shortest path from the start to the start requires no edges (0 cost).
+    Map<Vertex, Double> distTo = new HashMap<>();
+    edgeTo.put(start, null);
+    distTo.put(start, 0.0);
+
+    // SpecialMinPQ implementation
+    ExtrinsicMinPQ<Vertex> perimeter = new SpecialMinPQ<>(); // every Vertex is added to priority queue once 
+    perimeter.add(start);
+
+    while (!perimeter.isEmpty()) { // O(|V|)
+        Vertex from = perimeter.removeMin(); // O(V)
+        for (Edge edge : graph.neighbors(from)) { // O(|E|)
+            Vertex to = edge.to;
+            // oldDist is the weight of the best-known path not using this edge.
+            double oldDist = distTo.getOrDefault(to, Double.POSITIVE_INFINITY);
+            // newDist is the weight of the shortest path using this edge.
+            double newDist = distTo.get(from) + edge.weight;
+            // the path using this edge is better than the best-known path.
+            if (newDist < oldDist) {
+                edgeTo.put(to, edge);
+                // Store the weight of the path using this edge.
+                distTo.put(to, newDist);
+                if (perimeter.contains(to)) { // O(1)
+                    perimeter.changePriority(to, newDist); // O(1)
+                } else {
+                    perimeter.add(to, newDist); // O(N)
+                }
+            } // This entire if block is called "relaxing" an edge.
+        }
+    }
+}
