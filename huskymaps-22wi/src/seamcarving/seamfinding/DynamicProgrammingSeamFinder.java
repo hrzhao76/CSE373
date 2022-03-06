@@ -5,8 +5,10 @@ import seamcarving.SeamCarver;
 import seamcarving.energy.EnergyFunction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.DoubleBinaryOperator;
 
 /**
  * Dynamic programming implementation of the {@link SeamFinder} interface.
@@ -69,17 +71,39 @@ public class DynamicProgrammingSeamFinder implements SeamFinder {
             double leftup;
             double leftmid = picEnergy[i-1][currY];
             double leftdown;
+            List<Double> neighbor = new ArrayList<Double>(3);
+            int tmp_Y = currY;
             if (currY == 0) {
                 leftdown = picEnergy[i-1][currY+1];
                 if (leftdown < leftmid) currY++;
+                neighbor.add(-0.12345);
+                neighbor.add(leftmid);
+                neighbor.add(leftdown);
+
+
             } else if (currY == picEnergy[0].length - 1) {
                 leftup = picEnergy[i-1][currY-1];
                 if (leftup < leftmid) currY--;
+                neighbor.add(leftup);
+                neighbor.add(leftmid);
+                neighbor.add(-0.12345);
+
             } else {
                 leftdown = picEnergy[i-1][currY+1];
                 leftup = picEnergy[i-1][currY-1];
-                if (leftdown < leftup && leftdown < leftmid) currY++;
+                if (leftdown <= leftup && leftdown <= leftmid) currY++;
                 else if (leftup < leftdown && leftup < leftmid) currY--;
+
+                neighbor.add(leftup);
+                neighbor.add(leftmid);
+                neighbor.add(leftdown);
+
+
+            }
+            if(i>picEnergy.length-5){
+
+                System.out.printf("i=%d, min_y=%d ",i, tmp_Y);
+                System.out.println(Arrays.toString(neighbor.toArray()));
             }
             result.add(currY);
         }

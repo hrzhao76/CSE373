@@ -4,6 +4,7 @@ import seamcarving.Picture;
 import seamcarving.SeamCarver;
 import seamcarving.energy.EnergyFunction;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
@@ -37,8 +38,21 @@ public class DynamicProgrammingSeamFinder_Haoran implements SeamFinder {
         int min_y = min_idx(EnergyCost[picture.width()-1]);
         result.add(min_y);
         for(int x= picture.width()-1; x>0; x-- ){
+
+
+
+            if(x>picture.width()-5){
+                List<Double> neighbor = new ArrayList<Double>(3);
+                neighbor.add(EnergyCost[x-1][min_y-1]);
+                neighbor.add(EnergyCost[x-1][min_y]);
+                neighbor.add(EnergyCost[x-1][min_y+1]);
+                System.out.printf("i=%d, min_y=%d ",x, min_y);
+                System.out.println(Arrays.toString(neighbor.toArray()));
+            }
+
             min_y = LowestPredecessorIndex(EnergyCost[x-1], min_y);
             result.add(min_y);
+
         }
 
         Collections.reverse(result);

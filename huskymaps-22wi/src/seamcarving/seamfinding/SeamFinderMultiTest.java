@@ -39,43 +39,43 @@ class SeamFinderMultiTest {
      * The image files (.png) and corresponding expected seam costs (.txt) in the {@link #BASE_PATH}.
      */
     private static final String[] FILES = new String[]{
-            "HJoceanSmall",
-            "stripes",
-            "diagonals",
-            "diag_test",
-            "chameleon",
-            "12x10",
-            "10x12",
-            "10x10",
-            "8x3",
-            "7x10",
-            "7x3",
-            "6x5",
-            "5x6",
-            "4x6",
-            "3x8",
-            "3x7",
-            "3x4",
-            "3x3"
+            "HJoceanSmall"
+            //"stripes",
+            //"diagonals",
+            //"diag_test",
+            //"chameleon",
+            //"12x10",
+            //"10x12",
+            //"10x10",
+            //"8x3",
+            //"7x10",
+            //"7x3",
+            //"6x5",
+            //"5x6",
+            //"4x6",
+            //"3x8",
+            //"3x7",
+            //"3x4",
+            //"3x3"
     };
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Testing Djikstra Solver");
-        test(new AdjacencyListSeamFinder(DijkstraSolver::new));
-        System.out.println("\n=============================================");
-
-        System.out.println("Testing Generative Seam Finder");
-        test(new GenerativeSeamFinder(DijkstraSolver::new));
-        System.out.println("\n=============================================");
-
-
-        System.out.println("Testing Toposort DAG Solver Sneh Implemented");
-        test(new AdjacencyListSeamFinder(ToposortDAGSolver::new));
-        System.out.println("\n=============================================");
-
-        System.out.println("Testing Toposort DAG Solver Haoran Implemented");
-        test(new AdjacencyListSeamFinder(ToposortDAGSolver_Haoran::new));
-        System.out.println("\n=============================================");
+        //System.out.println("Testing Djikstra Solver");
+        //test(new AdjacencyListSeamFinder(DijkstraSolver::new));
+        //System.out.println("\n=============================================");
+        //
+        //System.out.println("Testing Generative Seam Finder");
+        //test(new GenerativeSeamFinder(DijkstraSolver::new));
+        //System.out.println("\n=============================================");
+        //
+        //
+        //System.out.println("Testing Toposort DAG Solver Sneh Implemented");
+        //test(new AdjacencyListSeamFinder(ToposortDAGSolver::new));
+        //System.out.println("\n=============================================");
+        //
+        //System.out.println("Testing Toposort DAG Solver Haoran Implemented");
+        //test(new AdjacencyListSeamFinder(ToposortDAGSolver_Haoran::new));
+        //System.out.println("\n=============================================");
 
         System.out.println("Testing Dynamic Programming Seam Finder Min Implemented");
         test(new DynamicProgrammingSeamFinder());
@@ -106,24 +106,24 @@ class SeamFinderMultiTest {
             double horzExpectedEnergy = getExpectedSeamEnergy(fileName, false);
             boolean horzPassed = Math.abs(horzSeamEnergy - horzExpectedEnergy) < EPSILON;
 
-            SeamCarver vertSeamCarver = new SeamCarver(new File(BASE_PATH + fileName + ".png"), f, seamFinder);
-            List<Integer> vertSeam = vertSeamCarver.removeVertical();
-            double vertSeamEnergy = getSeamEnergy(picture, vertSeam, true);
-            double vertExpectedEnergy = getExpectedSeamEnergy(fileName, true);
-            boolean vertPassed = Math.abs(vertSeamEnergy - vertExpectedEnergy) < EPSILON;
+            //SeamCarver vertSeamCarver = new SeamCarver(new File(BASE_PATH + fileName + ".png"), f, seamFinder);
+            //List<Integer> vertSeam = vertSeamCarver.removeVertical();
+            //double vertSeamEnergy = getSeamEnergy(picture, vertSeam, true);
+            //double vertExpectedEnergy = getExpectedSeamEnergy(fileName, true);
+            //boolean vertPassed = Math.abs(vertSeamEnergy - vertExpectedEnergy) < EPSILON;
 
-            System.out.printf(
-                    "%-30.30s  %-30.30s  %-30.30s%n",
-                    fileName + ".png",
-                    vertPassed ? "PASS" : "FAIL",
-                    horzPassed ? "PASS" : "FAIL"
-            );
-            if (!vertPassed) {
-                printFail(vertExpectedEnergy, vertSeam.toString(), vertSeamEnergy, true);
-            }
-            if (!horzPassed) {
+            //System.out.printf(
+            //        "%-30.30s  %-30.30s  %-30.30s%n",
+            //        fileName + ".png",
+            //        //vertPassed ? "PASS" : "FAIL",
+            //        horzPassed ? "PASS" : "FAIL"
+            //);
+            //if (!vertPassed) {
+            //    printFail(vertExpectedEnergy, vertSeam.toString(), vertSeamEnergy, true);
+            //}
+            //if (!horzPassed) {
                 printFail(horzExpectedEnergy, horzSeam.toString(), horzSeamEnergy, false);
-            }
+            //}
         }
     }
 
