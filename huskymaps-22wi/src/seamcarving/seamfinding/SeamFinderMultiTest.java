@@ -3,6 +3,7 @@ package seamcarving.seamfinding;
 import graphs.shortestpaths.DijkstraSolver;
 import graphs.shortestpaths.ToposortDAGSolver;
 import graphs.shortestpaths.ShortestPathSolver;
+import graphs.shortestpaths.ToposortDAGSolver_Haoran;
 import seamcarving.Picture;
 import seamcarving.SeamCarver;
 import seamcarving.energy.DualGradientEnergyFunction;
@@ -67,12 +68,23 @@ class SeamFinderMultiTest {
         test(new GenerativeSeamFinder(DijkstraSolver::new));
         System.out.println("\n=============================================");
 
-        System.out.println("Testing Toposort DAG Solver");
+
+        System.out.println("Testing Toposort DAG Solver Sneh Implemented");
         test(new AdjacencyListSeamFinder(ToposortDAGSolver::new));
         System.out.println("\n=============================================");
 
-        System.out.println("Testing Dynamic Programming Seam Finder");
+        System.out.println("Testing Toposort DAG Solver Haoran Implemented");
+        test(new AdjacencyListSeamFinder(ToposortDAGSolver_Haoran::new));
+        System.out.println("\n=============================================");
+
+        System.out.println("Testing Dynamic Programming Seam Finder Min Implemented");
         test(new DynamicProgrammingSeamFinder());
+        System.out.println("\n=============================================");
+
+        System.out.println("Testing Dynamic Programming Seam Finder Haoran Implemented");
+        test(new DynamicProgrammingSeamFinder_Haoran());
+        System.out.println("\n=============================================");
+
     }
 
     /**

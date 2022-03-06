@@ -10,12 +10,10 @@ import java.util.*;
  *
  * @param <V> the type of vertices.
  * @see ShortestPathSolver
- *
- * Implemented by Sneh.
  */
-public class ToposortDAGSolver<V> implements ShortestPathSolver<V> {
-    private final Map<V, Edge<V>> edgeTo; // map nodes to edges
-    private final Map<V, Double> distTo; // map nodes to the distance
+public class ToposortDAGSolver_Haoran<V> implements ShortestPathSolver<V> {
+    private final Map<V, Edge<V>> edgeTo;
+    private final Map<V, Double> distTo;
 
     /**
      * Constructs a new instance by executing the toposort-DAG-shortest-paths algorithm on the graph from the start.
@@ -23,23 +21,37 @@ public class ToposortDAGSolver<V> implements ShortestPathSolver<V> {
      * @param graph the input graph.
      * @param start the start vertex.
      */
-    public ToposortDAGSolver(Graph<V> graph, V start) {
+    public ToposortDAGSolver_Haoran(Graph<V> graph, V start) {
         this.edgeTo = new HashMap<>();
         this.distTo = new HashMap<>();
+        // TODO: Replace with your code
+        //throw new UnsupportedOperationException("Not implemented yet");
+
         Set<V> visited = new HashSet<>();
         List<V> result = new ArrayList<>();
+
         dfsPostOrder(graph, start, visited, result);
-        Collections.reverse(result); // Reverse the DFS postorder.
+
+        // Reverse the DFS postorder.
+        Collections.reverse(result);
         edgeTo.put(start, null);
         distTo.put(start, 0.0);
+
         for (V vertex : result) {
             for (Edge<V> edge : graph.neighbors(vertex)) {
-                Double goingTo = distTo.getOrDefault(edge.to, Double.POSITIVE_INFINITY);
-                Double curr = distTo.getOrDefault(vertex, Double.POSITIVE_INFINITY);
-                curr += edge.weight;
-                if (goingTo > curr) {
-                    distTo.put(edge.to, curr);
-                    edgeTo.put(edge.to, edge);
+                V to_vtx = edge.to;
+                // oldDist is the weight of the best-known path not using this edge.
+                double oldDist = distTo.getOrDefault(to_vtx, Double.POSITIVE_INFINITY);
+                // newDist is the weight of the shortest path using this edge.
+                double newDist = distTo.get(vertex) + edge.weight;
+                // Check that we haven't added the vertex to the SPT
+                //double newDist = distTo.getOrDefault(vertex, Double.POSITIVE_INFINITY);
+                //newDist += edge.weight;
+                // AND the path using this edge is better than the best-known path.
+                if (newDist < oldDist) {
+                    edgeTo.put(to_vtx, edge);
+                    // Store the weight of the path using this edge.
+                    distTo.put(to_vtx, newDist);
                 }
             }
         }
@@ -54,13 +66,14 @@ public class ToposortDAGSolver<V> implements ShortestPathSolver<V> {
      * @param result  the destination for adding nodes.
      */
     private void dfsPostOrder(Graph<V> graph, V start, Set<V> visited, List<V> result) {
+        // TODO: Replace with your code
+        //throw new UnsupportedOperationException("Not implemented yet");
         visited.add(start);
-        for (Edge<V> neighbor : graph.neighbors(start)) { // how to do this??????
-            if (!visited.contains(neighbor.to)) {
-                dfsPostOrder(graph, neighbor.to, visited, result);
+        for (Edge<V> edge : graph.neighbors(start)) {
+            if (!visited.contains(edge.to)) {
+                dfsPostOrder(graph, edge.to, visited, result);
             }
         }
-        // Postorder: Add start after visiting all the neighbors.
         result.add(start);
     }
 

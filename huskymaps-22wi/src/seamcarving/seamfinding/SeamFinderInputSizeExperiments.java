@@ -2,6 +2,7 @@ package seamcarving.seamfinding;
 
 import graphs.shortestpaths.DijkstraSolver;
 import graphs.shortestpaths.ToposortDAGSolver;
+import graphs.shortestpaths.ToposortDAGSolver_Haoran;
 import seamcarving.Picture;
 import seamcarving.energy.DualGradientEnergyFunction;
 import seamcarving.energy.EnergyFunction;
@@ -37,9 +38,12 @@ class SeamFinderInputSizeExperiments {
         Map<String, SeamFinder> implementations = Map.of(
                 "AdjDijkstra", new AdjacencyListSeamFinder(DijkstraSolver::new),
                 "AdjToposort", new AdjacencyListSeamFinder(ToposortDAGSolver::new),
+                "AdjToposort_Haoran", new AdjacencyListSeamFinder(ToposortDAGSolver_Haoran::new),
                 "GenDijkstra", new GenerativeSeamFinder(DijkstraSolver::new),
                 "GenToposort", new GenerativeSeamFinder(ToposortDAGSolver::new),
-                "DynamicProgramming", new DynamicProgrammingSeamFinder()
+                "GenToposort_Haoran", new GenerativeSeamFinder(ToposortDAGSolver_Haoran::new),
+                "DynamicProgramming", new DynamicProgrammingSeamFinder(),
+                "DynamicProgramming_Haoran", new DynamicProgrammingSeamFinder_Haoran()
         );
         EnergyFunction f = new DualGradientEnergyFunction();
 
@@ -47,9 +51,12 @@ class SeamFinderInputSizeExperiments {
         Map<String, PrintStream> printStreams = Map.of(
                 "AdjDijkstra", new PrintStream(TEST + "/AdjDijkstra.csv"),
                 "AdjToposort", new PrintStream(TEST + "/AdjToposort.csv"),
+                "AdjToposort_Haoran", new PrintStream(TEST + "/AdjToposort_Haoran.csv"),
                 "GenDijkstra", new PrintStream(TEST + "/GenDijkstra.csv"),
                 "GenToposort", new PrintStream(TEST + "/GenToposort.csv"),
-                "DynamicProgramming", new PrintStream(TEST + "/DynamicProgramming.csv")
+                "GenToposort_Haoran", new PrintStream(TEST + "/GenToposort_Haoran.csv"),
+                "DynamicProgramming", new PrintStream(TEST + "/DynamicProgramming.csv"),
+                "DynamicProgramming_Haoran", new PrintStream(TEST + "/DynamicProgramming_Haoran.csv")
         );
         for (int N = INPUT_STEP_SIZE; N <= MAX_INPUT_SIZE; N += INPUT_STEP_SIZE) {
             System.out.println("N = " + N);
@@ -79,6 +86,7 @@ class SeamFinderInputSizeExperiments {
                 out.printf("%.10f", totalTime / NUM_TRIALS);
                 out.println();
             }
+            System.out.println("N = " + N + " done.");
         }
     }
 }
